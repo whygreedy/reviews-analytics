@@ -1,13 +1,15 @@
+import time
+import progressbar
 
 data = []
 count = 0
+bar = progressbar.ProgressBar(max_value=1000000)
 with open('reviews.txt', 'r') as f:
 	for line in f:
 		data.append(line)
 		count = count + 1
-		if count % 100000 == 0:
-			print(len(data))
-print('共', len(data), '筆留言')
+		bar.update(count)
+print('檔案讀取完畢，共', len(data), '筆留言')
 
 # 留言數據統計、篩選
 
@@ -39,6 +41,7 @@ print('提及good的留言數: ', len(good))
 
 # 文字計數
 
+start_time = time.time()
 wc = {} # word_count
 for d in data:
 	words = d.split()
@@ -50,7 +53,8 @@ for d in data:
 for w in wc:
 	if wc[w] > 1000000:
 		print(w, '出現', wc[w], '次')
-
+end_time = time.time()
+print('花了', end_time - start_time, 'seconds')
 print('共', len(wc), '個字')
 
 while True:
